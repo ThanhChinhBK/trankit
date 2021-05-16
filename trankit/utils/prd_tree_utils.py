@@ -111,7 +111,7 @@ def read_text(text_path):
     return sents
 
 
-def load_ptr_trees(config, ptr_path, evaluate):
+def load_prd_trees(config, ptr_path, evaluate):
     """Load a treebank from ptr file format.
 
     This function update tag vocab when evaluate is True.

@@ -5,21 +5,22 @@ from torch.utils.data import Dataset
 from torch.utils.data.dataset import T_co
 
 from trankit.iterators.ner_iterators import Train_Instance
-from trankit.utils.treebank_utils import load_ptr_trees
+from trankit.utils.prd_tree_utils import load_prd_trees
 
 
-class TreebankDataset(Dataset):
+class PrdTreeDataset(Dataset):
+    """Dataset interface from """
     def __getitem__(self, index) -> T_co:
         return self.numberized_data[index]
 
-    def __init__(self, config, ptr_fpath, evaluate=False):
+    def __init__(self, config, prd_fpath, evaluate=False):
         self.config = config
         self.evaluate = evaluate
         self.numberized_data = []
 
         # load data
         self.config.vocab_fpath = os.path.join(self.config._save_dir, '{}.ner-vocab.json'.format(self.config.lang))
-        self.data = load_ptr_trees(self.config, ptr_fpath, evaluate)
+        self.data = load_prd_trees(self.config, prd_fpath, evaluate)
 
         if os.path.exists(self.config.vocab_fpath):
             with open(self.config.vocab_fpath) as f:
@@ -72,4 +73,4 @@ class TreebankDataset(Dataset):
             numberized_data.append(instance)
         print('Skipped {} over-length examples'.format(skip))
         print('Loaded {} examples'.format(len(numberized_data)))
-        self.data = numberized_data
+        self.numberized_data = numberized_data
