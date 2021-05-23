@@ -19,7 +19,7 @@ class PrdTreeDataset(Dataset):
         self.numberized_data = []
 
         # load data
-        self.config.vocab_fpath = os.path.join(self.config._save_dir, '{}.ner-vocab.json'.format(self.config.lang))
+        self.config.vocab_fpath = os.path.join(self.config._save_dir, '{}.prd-tree-vocab.json'.format(self.config.lang))
         self.data = load_prd_trees(self.config, prd_fpath, evaluate)
 
         if os.path.exists(self.config.vocab_fpath):
@@ -60,7 +60,7 @@ class PrdTreeDataset(Dataset):
             piece_idxs = piece_idxs
             assert len(piece_idxs) > 0
 
-            entity_label_idxs = [self.vocabs[label] for label in sentence['entity-labels']]
+            entity_label_idxs = [self.vocabs[label] for label in sentence['prd-labels']]
 
             instance = Train_Instance(
                 words=sentence['words'],

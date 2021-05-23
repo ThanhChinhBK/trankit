@@ -121,7 +121,6 @@ def load_prd_trees(config, ptr_path, evaluate):
     sentences = []
     for tree in trees:
         words = ptb_unescape(tree.leaves())
-        print(words)
         sp_after = guess_space_after(tree.leaves())
         sentences.append((words, sp_after))
 
@@ -136,7 +135,7 @@ def load_prd_trees(config, ptr_path, evaluate):
     for example in treebank:
         words = example.words
         labels = [token[1] for token in example.tree.pos()]
-        loaded_sentences.append({"words": words, "ptr_labels": labels})
+        loaded_sentences.append({"words": words, "prd-labels": labels})
         assert len(example.words) == len(example.leaves()), (
             "Constituency tree has a different number of tokens than the CONLL-U or "
             "other file used to specify reversible tokenization."
@@ -144,7 +143,7 @@ def load_prd_trees(config, ptr_path, evaluate):
     if not evaluate:
         tag_set = set()
         for sentence in loaded_sentences:
-            tag_set.update(sentence["ptr_labels"])
+            tag_set.update(sentence["prd-labels"])
         tag_list = list(tag_set)
         vocab = {"UNK": 0}
         tag_list = [t for t in tag_list if t != 'O']
